@@ -1,4 +1,4 @@
 streamlit==1.1.*
 gspread == 5.7.1
 pandas == 1.5.3
-google-auth
+google-auth2
