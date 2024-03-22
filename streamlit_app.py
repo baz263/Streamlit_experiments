@@ -2,6 +2,7 @@ import streamlit as st
 import gspread
 from google.oauth2.service_account import Credentials
 import pandas as pd
+from google.oauth2 import service_account
 
 
 def get_data(sheet_name):
