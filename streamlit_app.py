@@ -20,5 +20,5 @@ def get_data(sheet_name):
     return df
 
 data= get_data('nearest_asteroid')
-
+st.write('boob')
 st.dataframe(data)
