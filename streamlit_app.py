@@ -3,18 +3,22 @@ import gspread
 from google.oauth2.service_account import Credentials
 import pandas as pd
 
-st.write('cunt')
-scopes = ['https://docs.google.com/spreadsheets/d/19eKVNRzY_h56ASeLxu-aR_dTOkHbzrA6Msg57F1_ebs/edit?usp=sharing']
-skey = st.secrets['gcp_service_account']
-credentials = Credentials.from_service_account_info(skey, scopes=scopes)
-client = gspread.authorize(credentials)
 
-def load_data(url, sheet_name='Sheet1'):
-    sh = client.open_by_url(url)
-    df = pd.DataFrame(sh.worksheet(sheet_name).get_all_records())
+def get_data(sheet_name):
+    # Authenticate and open the Google Sheet
+    credentials_dict = st.secrets['gcp_service_account']
+    credentials = service_account.Credentials.from_service_account_info(credentials_dict, scopes=[
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive",
+    ])
+    gc= gspread.client(auth=credentials)
+    wks = gc.open(sheet_name).sheet1
+
+    data= wks.get_all_values()
+    column_names = data[0]
+    df = pd.DataFrame(data[1:], columns=column_names)
     return df
 
+data= get_data('nearest_asteroid')
 
-data= load_data('https://docs.google.com/spreadsheets/d/19eKVNRzY_h56ASeLxu-aR_dTOkHbzrA6Msg57F1_ebs/edit?usp=sharing')
-
-st.dataframe(data=data)
+st.dataframe(data)
