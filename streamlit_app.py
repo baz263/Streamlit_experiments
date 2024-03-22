@@ -21,7 +21,7 @@ def get_data(sheet_name):
     return df
 
 data= get_data('nearest_asteroid')
-st.write('boob')
+st.write('Solar flares in teh last week')
 st.dataframe(data)
 
 # def get_data(sheet_name):
