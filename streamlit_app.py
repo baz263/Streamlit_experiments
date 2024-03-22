@@ -15,3 +15,6 @@ def load_data(url, sheet_name='Sheet1'):
     return df
 
 
+data= load_data('https://docs.google.com/spreadsheets/d/19eKVNRzY_h56ASeLxu-aR_dTOkHbzrA6Msg57F1_ebs/edit?usp=sharing')
+
+st.dataframe(data=data)
