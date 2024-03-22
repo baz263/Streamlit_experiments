@@ -1,7 +1,17 @@
 import streamlit as st
-from streamlit_gsheets import GSheetsConnection
+import gspread
+from google.oauth2.service_account import Credentials
+import pandas as pd
 
-conn = st.connection('gsheets', type=GSheetsConnection)
-data = conn.read(spreadsheet='nearest_asteroid', worksheet='Sheet1')
-st.dataframe(data)
+
+scopes = ['https://docs.google.com/spreadsheets/d/19eKVNRzY_h56ASeLxu-aR_dTOkHbzrA6Msg57F1_ebs/edit?usp=sharing']
+skey = st.secrets['gcp_service_account']
+credentials = Credentials.from_service_account_info(skey, scopes=scopes)
+client = gspread.authorize(credentials)
+
+def load_data(url, sheet_name='Sheet1'):
+    sh = client.open_by_url(url)
+    df = pd.DataFrame(sh.worksheet(sheet_name).get_all_records())
+    return df
+
 
